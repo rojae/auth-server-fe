@@ -1,0 +1,6 @@
+rootProject.name = 'auth-server-fe'
+include 'auth-signup-web'
+include 'auth-signin-web'
+include 'index-web'
+
+

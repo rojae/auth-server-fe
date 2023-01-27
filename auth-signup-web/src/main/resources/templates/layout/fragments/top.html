@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<th:block th:fragment="topbarFragment">
+
+  <!-- 화면 변경 크기와 navbar의 배경색, 글자색 변경 -->
+  <!-- 화면 위쪽에 고정하기 위해 fixed-top 클래스 추가 -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-light fixed-top border-bottom">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" th:href="${@environment.getProperty('web.location.index')}"><i class="fa-solid fa-angle-left fa-xl"></i></a>
+      </div>
+      <div class="navbar-header">
+        <p class="text_title">회원가입</p>
+      </div>
+      <div class="navbar-header navbar-right">
+        <a class="navbar-brand" th:href="${@environment.getProperty('web.location.index')}"><i class="fa-solid fa-xmark fa-xl"></i></a>
+      </div>
+    </div>
+  </nav>
+
+</th:block>
+</html>

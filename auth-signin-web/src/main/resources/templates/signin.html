@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+    <!-- Begin Page Content -->
+    <main class="form-signin">
+        <div class="border-top border-bottom mb-3">
+            <div class="form-signin-logo pb-2">
+                <h1 class="h3 fw-bolder" style="font-size:50px; color:blue;">Company</h1>
+            </div>
+
+            <form class="pb-3" onsubmit="return false;">
+                <!--                cover html 주석처리-->
+                <!--                <div id="stage">-->
+                <!--                    <div id="inner">-->
+                <!--                        <div id="cover" style="bottom: 20%;">-->
+                <!--                            <div id="text">-->
+                <!--                                <span style="color: cyan;">Com</span><span style="color: white;"> .Inc</span>-->
+                <!--                            </div>-->
+                <!--                            <div id="detail"></div>-->
+                <!--                            <div id="handle"></div>-->
+                <!--                        </div>-->
+                <!--                        <canvas class="mb-4" id="live2d" width="800" height="800"></canvas>-->
+                <!--                    </div>-->
+                <!--                    <button class="btn btn-link" id="info"><i class="fa fa-lg fa-info"></i></button>-->
+                <!--                    <button class="btn btn-link" id="refresh"><i class="fa fa-lg fa-sync-alt"></i></button>-->
+                <!--                </div>-->
+
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                    <label for="email">이메일 주소</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <label for="password">비밀번호</label>
+                </div>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> 자동 로그인
+                    </label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" id="btn-login">로그인</button>
+            </form>
+
+            <div>
+                <div id="g-recaptcha"></div>
+                <input type="hidden" id="recaptcha" value="0"/>
+<!--                Recaptcha Test Button -->
+<!--                <button type="button" id="btn-recaptcha" onclick="return false;">제출</button>-->
+            </div>
+
+        </div>
+
+        <div class="small-links mb-3">
+            <button type="button" id="btn-find-id" class="btn btn-link text-muted">아이디 찾기</button>
+            <small class="text-muted">|</small>
+            <button type="button" id="btn-find-pwd" class="btn btn-link text-muted">비밀번호 재설정</button>
+            <small class="text-muted">|</small>
+            <button type="button" id="btn-signup" class="btn btn-link text-muted">회원가입</button>
+        </div>
+
+        <div class="social-links">
+            <button class="btn btn-kakao-login" id="btn-kakao-login" style="max-width: 300px; height: 45px; padding: 0; border: none; background: none;">
+                <img th:src="@{/img/kakao_login_medium_wide.png}">
+            </button>
+        </div>
+    </main>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/signin.js}" th:inline="javascript"></script>
+
+    <!-- recaptcha condition -->
+    <div th:if="${captcha} == true">
+        <script th:src="@{/js/recapt.js}" th:inline="javascript"></script>
+    </div>
+
+    <!-- Logout Alert -->
+    <div th:if="${isLogout} != null and ${isLogout} == true">
+        <script>
+            $(document).ready(function () {
+                bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `로그아웃 되었습니다.`,
+                    callback: function () {
+                        let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+                        return window.location.replace(loc);
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div th:if="${isLogout} != null and ${isLogout} == false">
+        <script>
+            $(document).ready(function () {
+                bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `비정상적인 접근입니다.<br>로그아웃 할 수 없습니다.`,
+                    callback: function () {
+                        let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+                        return window.location.replace(loc);
+                    }
+                });
+            });
+        </script>
+    </div>
+</th:block>
+
+</html>

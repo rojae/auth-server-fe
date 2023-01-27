@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+    <!-- Begin Page Content -->
+    <main class="form-signin">
+        <div class="border-top border-bottom mb-3">
+            <div class="form-signin-logo pb-2">
+                <h1 class="h3 fw-bolder" style="font-size:50px; color:blue;">Company</h1>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        $(document).ready(function () {
+            bootbox.alert({
+                size: "small",
+                title: "알림",
+                message: `이미 로그인 된 계정입니다.<br> 로그아웃을 진행해주세요.`,
+                callback: function () {
+                    let loc = document.querySelector("#web-index").getAttribute("data-contextPath");
+                    return window.location.replace(loc);
+                }
+            });
+        });
+    </script>
+
+</th:block>
+
+</html>

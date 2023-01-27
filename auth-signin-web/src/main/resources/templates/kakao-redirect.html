@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+    <!-- Begin Page Content -->
+    <main class="form-signin">
+        <div class="border-top border-bottom mb-3">
+            <div class="form-signin-logo pb-2">
+                <h1 class="h3 fw-bolder" style="font-size:50px; color:blue;">Company</h1>
+            </div>
+        </div>
+    </main>
+
+    <div th:if="${principal} != null">
+        <input type="hidden" id="email" th:value="${principal.getEmail()}">
+        <input type="hidden" id="name" th:value="${principal.getName()}">
+        <input type="hidden" id="platformType" th:value="${principal.getPlatformType()}">
+        <input type="hidden" id="profileImage" th:value="${principal.getProfileImage()}">
+        <input type="hidden" id="token" th:value="${principal.getToken()}">
+
+        <script>
+            let name = $('#name').val();
+            let email = $('#email').val();
+            let platformType = $('#platformType').val();
+            let profileImage = $('#profileImage').val();
+            let token = $('#token').val();
+
+            console.log(`email: ${email}, name: ${name}, platformType: ${platformType}, profileImage: ${profileImage}, token: ${token}`);
+
+            $(document).ready(function () {
+                bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `안녕하세요. ${name}님<br>카카오 로그인에 성공하여 페이지를 이동합니다.`,
+                    callback: function () {
+                        let loc = document.querySelector("#web-index").getAttribute("data-contextPath");
+                        return window.location.replace(loc);
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div th:if="${principal} == null">
+        <script>
+            $(document).ready(function () {
+                bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `잘못된 접근입니다.`,
+                    callback: function () {
+                        let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+                        return window.location.replace(loc);
+                    }
+                });
+            });
+        </script>
+    </div>
+
+</th:block>
+
+</html>

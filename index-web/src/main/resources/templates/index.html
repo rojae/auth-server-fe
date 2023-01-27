@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Company - 서비스에 대한 모든 것</title>
+</head>
+<body>
+<h2>Index 페이지</h2>
+
+<ol>
+    <li>로그인 : <a th:href="${@environment.getProperty('web.location.signin')}">링크</a> </li>
+    <li>로그아웃 : <a th:href="${@environment.getProperty('web.location.logout')}">링크</a> </li>
+    <li>회원가입 : <a th:href="${@environment.getProperty('web.location.signup')}">링크</a> </li>
+</ol>
+
+</body>
+</html>
