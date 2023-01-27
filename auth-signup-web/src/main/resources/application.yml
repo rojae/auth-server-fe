@@ -1,0 +1,14 @@
+web:
+  location:
+    logout: http://localhost:8090/logout
+    signup: http://localhost:9080
+    index: http://localhost:8000
+    signin: http://localhost:8090
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: 'false'
+    suffix: .html
+    check-template-location: 'true'
+server:
+  port: '9080'

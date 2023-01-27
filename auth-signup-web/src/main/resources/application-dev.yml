@@ -1,0 +1,14 @@
+web:
+  location:
+    logout: ${WEB_LOCATION_SIGNIN}/logout
+    signup: ${WEB_LOCATION_SIGNUP}
+    index: ${WEB_LOCATION_INDEX}
+    signin: ${WEB_LOCATION_SIGNIN}
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: 'false'
+    suffix: .html
+    check-template-location: 'true'
+server:
+  port: '9090'

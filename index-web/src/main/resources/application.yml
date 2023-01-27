@@ -1,0 +1,8 @@
+web:
+  location:
+    logout: http://localhost:8090/logout
+    signup: http://localhost:9080
+    index: http://localhost:8000
+    signin: http://localhost:8090
+server:
+  port: '8000'

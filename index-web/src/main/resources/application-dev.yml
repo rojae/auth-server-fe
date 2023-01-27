@@ -1,0 +1,8 @@
+web:
+  location:
+    logout: ${WEB_LOCATION_SIGNIN}/logout
+    signup: ${WEB_LOCATION_SIGNUP}
+    index: ${WEB_LOCATION_INDEX}
+    signin: ${WEB_LOCATION_SIGNIN}
+server:
+  port: '10000'
