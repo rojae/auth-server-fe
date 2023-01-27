@@ -43,7 +43,6 @@ public class SigninController {
         if(TokenUtils.hasToken(servletRequest))
             return "index-web-redirect";
         CaptchaUtils.captchaSave(servletRequest, servletResponse, model);
-        log.debug("Session: {}, Login Fail Count: {}", servletRequest.getSession().getId(), Objects.requireNonNull(WebUtils.getCookie(servletRequest, SecurityProps.authFailureName)).getValue());
         return "signin";
     }
 
