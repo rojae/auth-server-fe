@@ -5,4 +5,4 @@ web:
     index: ${WEB_LOCATION_INDEX}
     signin: ${WEB_LOCATION_SIGNIN}
 server:
-  port: '10000'
+  port: '8080'

@@ -11,4 +11,4 @@ spring:
     suffix: .html
     check-template-location: 'true'
 server:
-  port: '9090'
+  port: '8080'
