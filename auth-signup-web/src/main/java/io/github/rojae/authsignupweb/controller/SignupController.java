@@ -39,12 +39,12 @@ public class SignupController {
     public String step1View(HttpServletRequest request, HttpServletResponse response, Model model){
         SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
 
-        log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
-
         if(signupStepUUID == null){
             model.addAttribute("deny", true);
             return "signup/step1";
         }
+
+        log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
 
         return "signup/step1";
     }
