@@ -36,12 +36,12 @@ auth:
   server:
     be:
       unionapi:
+        base: http://localhost:10000
         login:
           nonsocial:
             url: /api/v1/auth/login/nonsocial
           kakao:
             url: /api/v1/auth/login/social/kakao
-        nodeValue: http://localhost:10000
         client-info:
           url: /api/v1/auth/client-info
 logging:

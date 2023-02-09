@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "unionApi", url = "${auth.server.be.unionapi}")
+@FeignClient(name = "unionApi", url = "${auth.server.be.unionapi.base}")
 public interface UnionApi {
 
     @PostMapping("${auth.server.be.unionapi.login.nonsocial.url}")
