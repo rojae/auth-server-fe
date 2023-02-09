@@ -6,31 +6,32 @@
 <th:block layout:fragment="content">
 
     <!-- Begin Page Content -->
-    <div class="row-12">
-<!--            안녕하세요. 테스트 문자열입니다.-->
-    </div>
-    <main class="form-signin">
-        <form>
-<!--            <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
-<!--            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>-->
+    <main class="form-signup">
+        <div class="mb-3">
+            <div class="form-signup pb-5 text-left">
+                <h1 class="h3 title" style="font-size:20px;">
+                    <strong class="highLight">Company</strong>
+                    에 오신 것을 <br/>
+                    환영해요
+                </h1>
+                <p>
+                    지금 회원 가입 하신 후
+                    <br/>다채로운 서비스를 만나보세요!
+                </p>
+            </div>
 
-<!--            <div class="form-floating">-->
-<!--                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">-->
-<!--                <label for="floatingInput">Email address</label>-->
-<!--            </div>-->
-<!--            <div class="form-floating">-->
-<!--                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">-->
-<!--                <label for="floatingPassword">Password</label>-->
-<!--            </div>-->
+            <form class="pb-3" onsubmit="return false;">
+                <button type="button" class="btn btn-primary btn-lg btn-block btn-signup-step1">가입하기</button>
+            </form>
 
-<!--            <div class="checkbox mb-3">-->
-<!--                <label>-->
-<!--                    <input type="checkbox" value="remember-me"> Remember me-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>-->
-        </form>
+        </div>
+
+
     </main>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/signupStep1.js}" th:inline="javascript"></script>
+
 </th:block>
 
 </html>

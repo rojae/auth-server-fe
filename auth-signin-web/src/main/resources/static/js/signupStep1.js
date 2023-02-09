@@ -1,8 +1,7 @@
 $(window).ready(function() {
 
-    $("#btn-signup").click(function (){
-        let loc = document.querySelector("#web-signup").getAttribute("data-contextPath");
-        return window.location.replace(loc);
+    $("#btn-signup-step1").click(function (){
+
     });
 
     $("#btn-login").click(function () {
@@ -99,24 +98,3 @@ $(window).ready(function() {
 
 
 });
-
-<!-- cover html 주석처리-->
-// window.addEventListener("load", () => {
-//     "use strict";
-//     let state = 2;
-//
-//     function coverPosition(pos) {
-//         document.getElementById("cover").style.bottom = pos;
-//     }
-//
-//     document.getElementById("handle").addEventListener("click", () => {
-//         if (state === 1) {
-//             state = 2;
-//             coverPosition("80%");
-//         } else if (state === 2) {
-//             state = 1;
-//             coverPosition("20%");
-//         }
-//     });
-//
-// });

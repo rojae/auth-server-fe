@@ -4,11 +4,40 @@ web:
     signup: http://localhost:9080
     index: http://localhost:8000
     signin: http://localhost:8090
+
 spring:
   thymeleaf:
     prefix: classpath:/templates/
     cache: 'false'
     suffix: .html
     check-template-location: 'true'
+  redis:
+    host: 127.0.0.1
+    port: 6380
+    password:
+    connect-timeout: 1000000
+
+feign:
+  client:
+    config:
+      default:
+        logger-level: FULL
+        read-timeout: '10000'
+        connect-timeout: '5000'
+
+auth:
+  server:
+    be:
+      unionapi:
+        base: http://localhost:10000
+        signup: /api/v1/auth/signup/newuser
+
 server:
   port: '9080'
+
+logging:
+  level:
+    io:
+      github:
+        rojae:
+          authsignupweb: debug

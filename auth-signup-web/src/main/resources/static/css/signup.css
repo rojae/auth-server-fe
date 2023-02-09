@@ -1,0 +1,45 @@
+.form-signup {
+    width: 100%;
+    max-width: 470px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signup .checkbox {
+    font-weight: 400;
+}
+
+.form-signup .form-signup-logo{
+    padding: 15px;
+}
+
+.form-signup .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signup input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signup input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.main {
+    display: block;
+}
+
+.title{
+    font-size: 24px;
+    line-height: 28px;
+    color: #000;
+}
+.title .highLight{
+    font-size: 24px;
+    line-height: 28px;
+    color: #067DFD;
+}
