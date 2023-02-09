@@ -39,7 +39,7 @@
                 bootbox.alert({
                     size: "small",
                     title: "알림",
-                    message: `잘못된 경로의 접근입니다`,
+                    message: `잘못된 접근입니다`,
                     callback: function () {
                         let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
                         return window.location.replace(loc);
