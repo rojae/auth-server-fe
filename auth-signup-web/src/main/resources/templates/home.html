@@ -21,7 +21,7 @@
             </div>
 
             <form class="pb-3" onsubmit="return false;">
-                <button type="button" class="btn btn-primary btn-lg btn-block btn-signup-step1">가입하기</button>
+                <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block">가입하기</button>
             </form>
 
         </div>
@@ -31,6 +31,23 @@
 
     <!-- Page level custom scripts -->
     <script th:src="@{/js/signupStep1.js}" th:inline="javascript"></script>
+
+    <!-- Page Access Deny Alert -->
+    <div th:if="${deny} != null and ${deny} == true">
+        <script>
+            $(document).ready(function () {
+                bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `잘못된 경로의 접근입니다`,
+                    callback: function () {
+                        let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+                        return window.location.replace(loc);
+                    }
+                });
+            });
+        </script>
+    </div>
 
 </th:block>
 

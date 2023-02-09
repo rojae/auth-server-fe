@@ -32,6 +32,7 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
     implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
     implementation "io.github.openfeign:feign-httpclient:11.9.1"
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
     //lombok
     compileOnly 'org.projectlombok:lombok'

@@ -24,5 +24,14 @@
   </div>
 </div>
 
+<link id="web-index" th:data-contextPath="${@environment.getProperty('web.location.index')}"/>
+<link id="web-signin" th:data-contextPath="${@environment.getProperty('web.location.signin')}"/>
+<link id="web-signup" th:data-contextPath="${@environment.getProperty('web.location.signup')}"/>
+
+<!-- dimmed -->
+<div class="un-dimmed" id="dimmed">
+  <img class="loading" th:src="@{/img/loading.gif}" alt="Loading...">
+</div>
+
 </body>
 </html>

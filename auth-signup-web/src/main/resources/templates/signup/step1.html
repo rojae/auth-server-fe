@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <!-- Begin Page Content -->
+  <main class="form-signup">
+    <div class="mb-3">
+      <div class="form-signup pb-3 text-left">
+        <h1 class="h3 title" style="font-size:20px;">
+          <strong class="highLight">기본 정보</strong>
+          를<br/>등록할게요
+        </h1>
+        <p>
+          로그인에 사용하실 이메일을 기입해주세요
+        </p>
+      </div>
+
+      <form class="p-3" onsubmit="return false;">
+          <div class="form-floating mb-5">
+            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+            <label for="email">이메일 주소</label>
+            <small id="emailHelp" class="form-text text-muted text-left">입력하신 이메일로 소유 인증을 진행합니다.</small>
+          </div>
+
+        <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block">다음</button>
+
+      </form>
+
+    </div>
+
+
+  </main>
+
+  <!-- Page level custom scripts -->
+  <script th:src="@{/js/signupStep1.js}" th:inline="javascript"></script>
+
+  <!-- Page Access Deny Alert -->
+  <div th:if="${deny} != null and ${deny} == true">
+    <script>
+      $(document).ready(function () {
+        bootbox.alert({
+          size: "small",
+          title: "알림",
+          message: `잘못된 경로의 접근입니다`,
+          callback: function () {
+            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+            return window.location.replace(loc);
+          }
+        });
+      });
+    </script>
+  </div>
+
+</th:block>
+
+</html>

@@ -23,7 +23,7 @@ cookie:
   token:
     name: Authorization
   auth-failure:
-    name: Authorization-Failure
+    name: AUTHORIZATION_FAILURE
 spring:
   security:
     ignore-matchers: /,/signin,/signin/**,/logout
