@@ -21,7 +21,7 @@
             </div>
 
             <form class="pb-3" onsubmit="return false;">
-                <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block">가입하기</button>
+                <button type="button" id="btn-signup-home" class="btn btn-primary btn-lg btn-block">가입하기</button>
             </form>
 
         </div>
@@ -30,7 +30,7 @@
     </main>
 
     <!-- Page level custom scripts -->
-    <script th:src="@{/js/signupStep1.js}" th:inline="javascript"></script>
+    <script th:src="@{/js/signupHome.js}" th:inline="javascript"></script>
 
     <!-- Page Access Deny Alert -->
     <div th:if="${deny} != null and ${deny} == true">

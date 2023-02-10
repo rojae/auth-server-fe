@@ -86,7 +86,8 @@ $(window).ready(function() {
                         title: "알림",
                         message: `죄송합니다. 일시적인 오류로 인해서 처리하지 못했습니다.<br>잠시 뒤에 시도해주세요.`,
                         callback: function () {
-                            window.location.replace('http://localhost:8000')
+                            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+                            return window.location.replace(loc);
                         }
                     });
                 }
