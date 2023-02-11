@@ -75,7 +75,7 @@ public class SignupStepUUIDService {
         String requestPath = request.getHeader("referer");
 
         for(String enablePath : enablePathArray){
-            if (requestPath.contains(enablePath))
+            if (requestPath == null || requestPath.contains(enablePath))
                 return false;
         }
 

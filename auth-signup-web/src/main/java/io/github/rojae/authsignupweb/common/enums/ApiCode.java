@@ -4,6 +4,11 @@ public enum ApiCode {
 
     OK("A0000", "성공"),
 
+    // MAIL API Level //
+    STMP_OK("M0000", "성공"),
+    FAIL_SENDMAIL("M0001", "메일 발송에 실패했습니다"),
+    INVALID_SECRET("M0002", "잘못된 인증코드입니다"),
+
     // API Level //
     INVALID_HEADER("A1000", "헤더에 데이터가 존재하지 않습니다"),
     INVALID_BODY("A1001", "바디 데이터가 존재하지 않습니다"),

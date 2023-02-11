@@ -19,13 +19,20 @@
       </div>
 
       <form class="p-3" onsubmit="return false;">
-          <div class="form-floating mb-5">
+          <div id="emailForm" class="form-floating mb-5">
             <input type="email" class="form-control" id="email" placeholder="name@example.com">
             <label for="email">이메일 주소</label>
             <small id="emailHelp" class="form-text text-muted text-left">입력하신 이메일로 소유 인증을 진행합니다.</small>
           </div>
 
-        <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block">다음</button>
+          <div id="secretForm" class="form-floating mb-5" style="display: none">
+            <input type="text" class="form-control" id="secret" placeholder="XXXXXX">
+            <label for="secret">인증코드</label>
+            <small id="secretHelp" class="form-text text-muted text-left">여기에 인증코드를 입력하세요.</small>
+          </div>
+
+        <button type="button" id="btn-signup-pre-step1" class="btn btn-primary btn-lg btn-block">다음</button>
+        <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block" style="display: none">인증하기</button>
 
       </form>
 
