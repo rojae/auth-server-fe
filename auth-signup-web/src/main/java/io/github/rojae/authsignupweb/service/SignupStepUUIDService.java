@@ -90,10 +90,17 @@ public class SignupStepUUIDService {
     @Transactional(readOnly = false)
     public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
         String header = request.getHeader(SSUUID_NAME);
-        if(!StringUtils.isEmpty(header) && signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, header)).isPresent()){
-            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, header), new SignupRedisData().ofStep1(step1Request));
-            signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
-            return true;
+        log.debug("step1's header : {}", header);
+
+        if(!StringUtils.isEmpty(header)){
+            Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, header));
+            if(byId.isPresent()){
+                signupStepUUIDRepository.deleteById(SignupStepUUID.idFormat(SSUUID_NAME, header));
+                SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, header), new SignupRedisData().ofStep1(step1Request));
+                signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
+                return true;
+            }
+            return false;
         }
         return false;
     }
