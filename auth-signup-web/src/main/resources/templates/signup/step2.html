@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <!-- Begin Page Content -->
+  <main class="form-signup">
+    <div class="mb-3">
+      <div class="form-signup pb-3 text-left">
+        <h1 class="h3 title" style="font-size:20px;">
+          <strong class="highLight">기본 정보</strong>
+          를<br/>등록할게요
+        </h1>
+        <p>
+          로그인에 사용하실 정보를 입력하세요
+        </p>
+      </div>
+
+      <form class="p-3" onsubmit="return false;">
+        <div id="emailForm" class="form-floating mb-5">
+          <input type="email" class="form-control" id="email" placeholder="name@example.com" disabled>
+          <label for="email">이메일 주소</label>
+          <small id="emailHelp" class="form-text text-muted text-left">인증된 이메일입니다</small>
+        </div>
+
+        <div id="secretForm" class="form-floating mb-5" style="display: none">
+          <input type="text" class="form-control" id="secret" placeholder="XXXXXX">
+          <label for="secret">인증코드</label>
+          <small id="secretHelp" class="form-text text-muted text-left">여기에 인증코드를 입력하세요.</small>
+        </div>
+
+        <button type="button" id="btn-signup-pre-step1" class="btn btn-primary btn-lg btn-block">다음</button>
+        <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block" style="display: none">인증하기</button>
+
+      </form>
+
+    </div>
+
+
+  </main>
+
+  <!-- Page level custom scripts -->
+  <script th:src="@{/js/signupStep2.js}" th:inline="javascript"></script>
+
+  <!-- Page Access Deny Alert -->
+  <div th:if="${deny} != null and ${deny} == true">
+    <script>
+      $(document).ready(function () {
+        bootbox.alert({
+          size: "small",
+          title: "알림",
+          message: `잘못된 접근이거나 만료된 페이지입니다`,
+          callback: function () {
+            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+            return window.location.replace(loc);
+          }
+        });
+      });
+    </script>
+  </div>
+
+</th:block>
+
+</html>

@@ -5,13 +5,18 @@ import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
 import io.github.rojae.authsignupweb.dto.ApiBase;
+import io.github.rojae.authsignupweb.dto.SignupStep1Request;
+import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -20,6 +25,7 @@ import javax.validation.Valid;
 public class ApiController {
 
     private final SmtpApi smtpApi;
+    private final SignupStepUUIDService signupStepUUIDService;
 
     // 회원타입구분 서비스/카카오
     // 약관동의
@@ -37,9 +43,12 @@ public class ApiController {
     }
 
     @PostMapping("/api/v1/mail/verify/signupForAuth")
-    public ResponseEntity<ApiBase<Object>> verify(@RequestBody @Valid MailVerifyRequestDto requestDto){
-        if(ApiCode.ofCode(smtpApi.verifySignupAuthMail(requestDto).getCode()) == ApiCode.STMP_OK)
+    public ResponseEntity<ApiBase<Object>> verify(@RequestBody @Valid MailVerifyRequestDto requestDto, HttpServletRequest request, HttpServletResponse response) {
+        // SS_UUID 업데이트가 정상적이고, SMTP 인증에 성공한 경우
+        if(signupStepUUIDService.saveStep1(request, response, new SignupStep1Request(requestDto.getEmail()))
+                && ApiCode.ofCode(smtpApi.verifySignupAuthMail(requestDto).getCode()) == ApiCode.STMP_OK) {
             return ResponseEntity.ok(new ApiBase<>(ApiCode.STMP_OK));
+        }
         else
             return ResponseEntity.ok(new ApiBase<>(ApiCode.INVALID_SECRET));
     }

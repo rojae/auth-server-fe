@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.WebUtils;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,7 @@ public class SignupStepUUIDService {
         Cookie ssuuidCookie = CookieUtils.setCookie(SSUUID_NAME, ssuuidValue, maxAge, path, response);
 
         // Save to Redis
-        signupStepUUIDRepository.save(new SignupStepUUID(ssuuidCookie));
+        signupStepUUIDRepository.save(new SignupStepUUID(ssuuidCookie, new SignupRedisData()));
 
         return true;
     }
@@ -64,6 +66,7 @@ public class SignupStepUUIDService {
         else{
             Cookie cookie = WebUtils.getCookie(request, SSUUID_NAME);
             Optional<SignupStepUUID> selectedSSUUID = Optional.empty();
+            System.out.println(cookie);
             if (cookie != null) {
                 selectedSSUUID = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(cookie.getName(), cookie.getValue()));
             }
@@ -84,7 +87,14 @@ public class SignupStepUUIDService {
 
 
     ///////////// STEP 1 ////////////////
-    public boolean step1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
+    @Transactional(readOnly = false)
+    public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
+        String header = request.getHeader(SSUUID_NAME);
+        if(!StringUtils.isEmpty(header) && signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, header)).isPresent()){
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, header), new SignupRedisData().ofStep1(step1Request));
+            signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
+            return true;
+        }
         return false;
     }
 }

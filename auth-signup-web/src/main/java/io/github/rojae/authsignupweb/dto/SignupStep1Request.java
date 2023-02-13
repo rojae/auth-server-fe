@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class SignupStep1Request {
 
     @YNValid
-    private String platformType;
+    private String email;
 
 }

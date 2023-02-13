@@ -23,6 +23,11 @@ public class SignupStepUUID implements Serializable {
         this.data = data;
     }
 
+    public SignupStepUUID(String ssUuid, SignupRedisData data) {
+        this.id = ssUuid;
+        this.data = data;
+    }
+
     @Id
     private String id;
     private SignupRedisData data;

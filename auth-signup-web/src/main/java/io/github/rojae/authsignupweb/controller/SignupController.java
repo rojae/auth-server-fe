@@ -49,4 +49,19 @@ public class SignupController {
         return "signup/step1";
     }
 
+
+    @GetMapping("/signup/step2")
+    public String step2View(HttpServletRequest request, HttpServletResponse response, Model model){
+        SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
+
+        if(signupStepUUID == null){
+            model.addAttribute("deny", true);
+            return "signup/step1";
+        }
+
+        log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
+
+        return "signup/step2";
+    }
+
 }
