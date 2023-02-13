@@ -27,7 +27,7 @@ public class SignupStepUUIDService {
 
     private final SignupStepUUIDRepository signupStepUUIDRepository;
     private final WebLocationProps webLocationProps;
-    private static final String SSUUID_NAME = "SIGNUP_STEP_UUID";
+    private static final String SSUUID_NAME = "signup_step_uuid";
     private static final int SSUID_VALUE_LEN = 64;
     private static final int maxAge = 30 * 60;  // 30Min
     private static final String path = "/";

@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.TimeToLive;
 import javax.servlet.http.Cookie;
 import java.io.Serializable;
 
-@RedisHash(value = "SIGNUP_STEP_UUID")
+@RedisHash(value = "signup_step_uuid")
 public class SignupStepUUID implements Serializable {
 
     public SignupStepUUID() {

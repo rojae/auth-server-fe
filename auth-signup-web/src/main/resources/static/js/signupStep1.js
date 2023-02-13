@@ -50,7 +50,7 @@ $("#btn-signup-step1").click(function (){
         url : "/api/v1/mail/verify/signupForAuth",
         method: "post",
         beforeSend: function(request) {
-            request.setRequestHeader("SIGNUP_STEP_UUID", getCookie('SIGNUP_STEP_UUID'));
+            request.setRequestHeader("signup_step_uuid", getCookie('signup_step_uuid'));
         },
         contentType : "application/json; charset=utf-8",
         dataType : "json",
