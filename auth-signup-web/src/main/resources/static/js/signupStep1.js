@@ -49,6 +49,9 @@ $("#btn-signup-step1").click(function (){
     $.ajax({
         url : "/api/v1/mail/verify/signupForAuth",
         method: "post",
+        beforeSend: function(request) {
+            request.setRequestHeader("SIGNUP_STEP_UUID", getCookie('SIGNUP_STEP_UUID'));
+        },
         contentType : "application/json; charset=utf-8",
         dataType : "json",
         data : dataJson,
@@ -88,5 +91,20 @@ function exceptionRedirect() {
             window.location.replace(loc);
         }
     });
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
 
