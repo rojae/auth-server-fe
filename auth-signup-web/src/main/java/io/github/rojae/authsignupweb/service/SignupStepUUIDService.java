@@ -9,15 +9,16 @@ import io.github.rojae.authsignupweb.utils.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.WebUtils;
-import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -89,14 +90,13 @@ public class SignupStepUUIDService {
     ///////////// STEP 1 ////////////////
     @Transactional(readOnly = false)
     public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
-        String header = request.getHeader(SSUUID_NAME);
-        log.debug("step1's header : {}", header);
+        String val = CookieUtils.getCookie(request, SSUUID_NAME);
+        log.debug("step1's header : {}", val);
 
-        if(!StringUtils.isEmpty(header)){
-            Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, header));
+        if(!StringUtils.isEmpty(val)){
+            Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
             if(byId.isPresent()){
-                signupStepUUIDRepository.deleteById(SignupStepUUID.idFormat(SSUUID_NAME, header));
-                SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, header), new SignupRedisData().ofStep1(step1Request));
+                SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofStep1(step1Request));
                 signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
                 return true;
             }
