@@ -19,20 +19,25 @@
       </div>
 
       <form class="p-3" onsubmit="return false;">
-        <div id="emailForm" class="form-floating mb-5">
-          <input type="email" class="form-control" id="email" placeholder="name@example.com" disabled>
+        <div id="emailForm" class="form-floating mb-3">
+          <input type="email" class="form-control" id="email" placeholder="name@example.com" th:value="${ss_uuid_data.getEmail()}" disabled>
           <label for="email">이메일 주소</label>
           <small id="emailHelp" class="form-text text-muted text-left">인증된 이메일입니다</small>
         </div>
 
-        <div id="secretForm" class="form-floating mb-5" style="display: none">
-          <input type="text" class="form-control" id="secret" placeholder="XXXXXX">
-          <label for="secret">인증코드</label>
-          <small id="secretHelp" class="form-text text-muted text-left">여기에 인증코드를 입력하세요.</small>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="password" placeholder="Password">
+          <label for="password">비밀번호</label>
+          <small id="passwordHelp" class="form-text text-muted text-left">패스워드는 영어, 숫자, 특수문자의 조합으로 8자 이상만 가능합니다</small>
         </div>
 
-        <button type="button" id="btn-signup-pre-step1" class="btn btn-primary btn-lg btn-block">다음</button>
-        <button type="button" id="btn-signup-step1" class="btn btn-primary btn-lg btn-block" style="display: none">인증하기</button>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="passwordConfirm" placeholder="Password Confirm">
+          <label for="passwordConfirm">비밀번호 확인</label>
+          <small id="passwordConfirmHelp" class="form-text text-muted text-left">비밀번호를 한번 더 입력해주세요</small>
+        </div>
+
+        <button type="button" id="btn-signup-pre-step2" class="btn btn-primary btn-lg btn-block">다음</button>
 
       </form>
 

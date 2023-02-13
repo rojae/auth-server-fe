@@ -61,11 +61,9 @@ $("#btn-signup-step1").click(function (){
                 return bootbox.alert({
                     size: "small",
                     title: "알림",
-                    message: `짝짝짝! &#127881;<br/>인증에 성공했어요`,
+                    message: `짝짝짝! 🎉<br/>인증에 성공했어요`,
                     callback: function () {
-                        alert('개발 중인 영역으로 로그인 페이지로 이동할게요');
-                        let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
-                        window.location.replace(loc);
+                        window.location.replace("/signup/step2");
                     }
                 });
             }
@@ -80,7 +78,7 @@ $("#btn-signup-step1").click(function (){
     });
 });
 
-function exceptionRedirect(){}
+function exceptionRedirect() {
     bootbox.alert({
         size: "middle",
         title: "알림",
@@ -89,5 +87,6 @@ function exceptionRedirect(){}
             let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
             window.location.replace(loc);
         }
-});
+    });
+}
 

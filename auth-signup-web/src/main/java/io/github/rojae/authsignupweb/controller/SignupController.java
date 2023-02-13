@@ -58,10 +58,12 @@ public class SignupController {
             model.addAttribute("deny", true);
             return "signup/step1";
         }
+        else{
+            log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
+            model.addAttribute("ss_uuid_data", signupStepUUID.getData());
+            return "signup/step2";
+        }
 
-        log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
-
-        return "signup/step2";
     }
 
 }
