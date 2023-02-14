@@ -86,22 +86,23 @@ public class SignupStepUUIDService {
         return true;
     }
 
+    public boolean checkSSUUID(HttpServletRequest request){
+        String val = CookieUtils.getCookie(request, SSUUID_NAME);
+        log.debug("step1's header : {}", val);
+        if(!StringUtils.isEmpty(val)) {
+            Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
+            return byId.isPresent();
+        }
+        return false;
+    }
 
     ///////////// STEP 1 ////////////////
     @Transactional(readOnly = false)
     public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
         String val = CookieUtils.getCookie(request, SSUUID_NAME);
-        log.debug("step1's header : {}", val);
-
-        if(!StringUtils.isEmpty(val)){
-            Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
-            if(byId.isPresent()){
-                SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofStep1(step1Request));
-                signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
-                return true;
-            }
-            return false;
-        }
-        return false;
+        SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofStep1(step1Request));
+        signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
+        return true;
     }
+
 }

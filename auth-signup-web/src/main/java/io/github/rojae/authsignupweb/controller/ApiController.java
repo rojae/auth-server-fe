@@ -45,7 +45,10 @@ public class ApiController {
     @PostMapping("/api/v1/mail/verify/signupForAuth")
     public ResponseEntity<ApiBase<Object>> verify(@RequestBody @Valid MailVerifyRequestDto requestDto, HttpServletRequest request, HttpServletResponse response) {
         // SS_UUID 업데이트가 정상적이고, SMTP 인증에 성공한 경우
-        if(signupStepUUIDService.saveStep1(request, response, new SignupStep1Request(requestDto.getEmail()))
+        if(!signupStepUUIDService.checkSSUUID(request)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.INVALID_SSUUID));
+        }
+        else if(signupStepUUIDService.saveStep1(request, response, new SignupStep1Request(requestDto.getEmail()))
                 && ApiCode.ofCode(smtpApi.verifySignupAuthMail(requestDto).getCode()) == ApiCode.STMP_OK) {
             return ResponseEntity.ok(new ApiBase<>(ApiCode.STMP_OK));
         }

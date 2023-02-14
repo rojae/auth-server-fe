@@ -12,10 +12,7 @@ $("#btn-signup-pre-step1").click(function (){
         data : dataJson,
         success : function(response){
             console.log(response);
-            if(response.code !== 'M0000'){
-                exceptionRedirect();
-            }
-            else if(response.code === 'M0000'){
+            if(response.code === 'M0000'){
                 return bootbox.alert({
                     size: "small",
                     title: "알림",
@@ -35,6 +32,9 @@ $("#btn-signup-pre-step1").click(function (){
                     title: "알림",
                     message: `이메일 발송에 실패했어요<br/>다시 한번 시도해주세요`,
                 });
+            }
+            else{
+                exceptionRedirect();
             }
         }
     });
@@ -57,10 +57,8 @@ $("#btn-signup-step1").click(function (){
         data : dataJson,
         success : function(response){
             console.log(response);
-            if(response.code !== 'M0000' && response.code !== 'M0002'){
-                exceptionRedirect();
-            }
-            else if(response.code === 'M0000'){
+
+            if(response.code === 'M0000'){
                 return bootbox.alert({
                     size: "small",
                     title: "알림",
@@ -76,6 +74,19 @@ $("#btn-signup-step1").click(function (){
                     title: "알림",
                     message: `인증코드가 잘못되었어요.<br/>다시 확인해주세요`,
                 });
+            }
+            else if(response.code === 'M0003') {
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `잘못된 경로이거나 만료된 세션입니다<br/>다시 진행해주세요`,
+                    callback: function () {
+                        window.location.replace("/home");
+                    }
+                });
+            }
+            else{
+                exceptionRedirect();
             }
         }
     });
