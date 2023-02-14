@@ -1,16 +1,20 @@
 package io.github.rojae.authsignupweb.dto;
 
-import io.github.rojae.authsignupweb.common.valid.YNValid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupStep1Request {
+public class SignupPasswordVerifyRequest {
 
-    @YNValid
+    @NotBlank
     private String email;
+
+    @NotBlank
+    private String password;
 
 }

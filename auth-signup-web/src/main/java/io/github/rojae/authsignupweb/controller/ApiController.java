@@ -5,14 +5,16 @@ import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
 import io.github.rojae.authsignupweb.dto.ApiBase;
-import io.github.rojae.authsignupweb.dto.SignupStep1Request;
+import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
+import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
+import io.github.rojae.authsignupweb.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,21 +41,39 @@ public class ApiController {
     @PostMapping("/api/v1/mail/send/signupForAuth")
     public ResponseEntity<ApiBase<Object>> sendAuthMail(@RequestBody MailRequestDto requestDto){
         smtpApi.sendSignupAuthMail(requestDto);
-        return ResponseEntity.ok(new ApiBase<>(ApiCode.STMP_OK));
+        return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_OK));
     }
 
     @PostMapping("/api/v1/mail/verify/signupForAuth")
-    public ResponseEntity<ApiBase<Object>> verify(@RequestBody @Valid MailVerifyRequestDto requestDto, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiBase<Object>> mailVerify(@RequestBody @Valid SignupEmailVerifyRequest requestDto, HttpServletRequest request, HttpServletResponse response) {
         // SS_UUID 업데이트가 정상적이고, SMTP 인증에 성공한 경우
         if(!signupStepUUIDService.checkSSUUID(request)){
-            return ResponseEntity.ok(new ApiBase<>(ApiCode.INVALID_SSUUID));
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
         }
-        else if(signupStepUUIDService.saveStep1(request, response, new SignupStep1Request(requestDto.getEmail()))
-                && ApiCode.ofCode(smtpApi.verifySignupAuthMail(requestDto).getCode()) == ApiCode.STMP_OK) {
-            return ResponseEntity.ok(new ApiBase<>(ApiCode.STMP_OK));
+        else if(signupStepUUIDService.saveStep1(request, response, requestDto)
+                && ApiCode.ofCode(smtpApi.verifySignupAuthMail(new MailVerifyRequestDto(requestDto.getEmail(), requestDto.getSecret())).getCode()) == ApiCode.SMTP_OK) {
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_OK));
         }
         else
-            return ResponseEntity.ok(new ApiBase<>(ApiCode.INVALID_SECRET));
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_INVALID_SECRET));
+    }
+
+    @PostMapping("/api/v1/signup/basic-info/password")
+    public ResponseEntity<ApiBase<Object>> passwordVerify(@RequestBody @Valid SignupPasswordVerifyRequest requestDto, HttpServletRequest request, HttpServletResponse response) {
+        String passwordCheckResult = PasswordUtils.ruleCheck(requestDto.getEmail(), requestDto.getPassword());
+
+        if(!signupStepUUIDService.checkSSUUID(request)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
+        }
+        else if(!StringUtils.isEmpty(passwordCheckResult)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_NOTALLOW_PASSWORD, passwordCheckResult));
+        }
+        else if(signupStepUUIDService.saveStep2(request, response, requestDto)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));
+        }
+        else {
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_BADREQUET_WITHDATA));
+        }
     }
 
 }

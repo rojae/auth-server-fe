@@ -29,8 +29,14 @@ public class SignupRedisData {
     // STEP 4 //
     private String mailAuthCode;
 
-    public SignupRedisData ofStep1(SignupStep1Request request){
+    public SignupRedisData ofSignupEmailVerifyRequest(SignupEmailVerifyRequest request){
         this.setEmail(request.getEmail());
+        return this;
+    }
+
+    public SignupRedisData ofSignupPasswordVerifyRequest(SignupPasswordVerifyRequest request){
+        this.setEmail(request.getEmail());
+        this.setPassword(request.getPassword());
         return this;
     }
 

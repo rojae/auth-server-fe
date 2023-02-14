@@ -54,9 +54,9 @@ public class SignupController {
     public String step2View(HttpServletRequest request, HttpServletResponse response, Model model){
         SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
 
-        if(signupStepUUID == null || signupStepUUIDService.filterRequestRefer(request, webLocationProps.signupWebUrl + "/signup/step2")){
+        if(signupStepUUID == null || signupStepUUIDService.filterRequestRefer(request, webLocationProps.signupWebUrl + "/signup/step1")){
             model.addAttribute("deny", true);
-            return "signup/step1";
+            return "signup/step2";
         }
         else{
             log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));

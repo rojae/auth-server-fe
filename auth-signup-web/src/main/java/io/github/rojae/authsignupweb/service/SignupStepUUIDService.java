@@ -2,8 +2,9 @@ package io.github.rojae.authsignupweb.service;
 
 import io.github.rojae.authsignupweb.common.domain.SignupStepUUID;
 import io.github.rojae.authsignupweb.common.props.WebLocationProps;
+import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
 import io.github.rojae.authsignupweb.dto.SignupRedisData;
-import io.github.rojae.authsignupweb.dto.SignupStep1Request;
+import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
 import io.github.rojae.authsignupweb.repository.SignupStepUUIDRepository;
 import io.github.rojae.authsignupweb.utils.CookieUtils;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -98,11 +98,28 @@ public class SignupStepUUIDService {
 
     ///////////// STEP 1 ////////////////
     @Transactional(readOnly = false)
-    public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupStep1Request step1Request){
+    public boolean saveStep1(HttpServletRequest request, HttpServletResponse response, SignupEmailVerifyRequest step1Request){
         String val = CookieUtils.getCookie(request, SSUUID_NAME);
-        SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofStep1(step1Request));
+        SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupEmailVerifyRequest(step1Request));
         signupStepUUIDRepository.save(ssUUID);      // update step1's result in redis server
         return true;
+    }
+
+    @Transactional(readOnly = false)
+    public boolean saveStep2(HttpServletRequest request, HttpServletResponse response, SignupPasswordVerifyRequest step2Request){
+        String val = CookieUtils.getCookie(request, SSUUID_NAME);
+        Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
+
+        if(byId.isPresent()
+            && byId.get().getData() != null
+            && byId.get().getData().getEmail().equals(step2Request.getEmail())){
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupPasswordVerifyRequest(step2Request));
+            signupStepUUIDRepository.save(ssUUID);      // update step2's result in redis server
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

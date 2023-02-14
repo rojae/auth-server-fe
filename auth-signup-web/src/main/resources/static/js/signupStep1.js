@@ -75,7 +75,7 @@ $("#btn-signup-step1").click(function (){
                     message: `인증코드가 잘못되었어요.<br/>다시 확인해주세요`,
                 });
             }
-            else if(response.code === 'M0003') {
+            else if(response.code === 'S0001') {
                 return bootbox.alert({
                     size: "small",
                     title: "알림",
