@@ -28,11 +28,13 @@
 }
 
 
-
-
 .form-signup .form-floating-flex .flex-input{
     text-align: center;
-    padding: 0%;
+    padding: 0;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: outset;
 }
 
 .form-signup input[type="email"] {
