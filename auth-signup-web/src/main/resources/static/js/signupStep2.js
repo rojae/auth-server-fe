@@ -32,15 +32,7 @@ $("#btn-signup-pre-step2").click(function (){
                     title: "알림",
                     message: `이메일과 비밀번호 입력이 완료되었어요`,
                     callback: function () {
-                        return bootbox.alert({
-                            size: "middle",
-                            title: "알림",
-                            message: `아직 개발 중인 페이지이예요 😅<br/>로그인 페이지로 이동할게요`,
-                            callback: function () {
-                                let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
-                                window.location.replace(loc);
-                            }
-                        });
+                        window.location.replace("/signup/step3");
                     }
                 });
             }

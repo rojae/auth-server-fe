@@ -75,8 +75,25 @@ public class SignupStepUUIDService {
     public boolean filterRequestRefer(HttpServletRequest request, String... enablePathArray) {
         String requestPath = request.getHeader("referer");
 
+        if(requestPath == null)
+            return true;
+
         for(String enablePath : enablePathArray){
-            if (requestPath == null || requestPath.contains(enablePath))
+            if (requestPath.contains(enablePath))
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean filterRequestRefer(HttpServletRequest request, SignupStepUUID signupStepUUID, String... enablePathArray) {
+        String requestPath = request.getHeader("referer");
+
+        if(signupStepUUID == null || requestPath == null)
+            return true;
+
+        for(String enablePath : enablePathArray){
+            if (requestPath.contains(enablePath))
                 return false;
         }
 

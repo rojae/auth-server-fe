@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupStep3Request {
-    private String email;
-    private String password;
-    private String name;
-    private String identificationNo;
+public class SignupAgreeInfoRequest {
+    private String agreeRecvMail;       // Y, N
 }

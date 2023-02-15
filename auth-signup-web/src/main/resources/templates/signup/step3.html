@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <!-- Begin Page Content -->
+  <main class="form-signup">
+    <div class="mb-3">
+      <div class="form-signup pb-3 text-left">
+        <h1 class="h3 title" style="font-size:20px;">
+          <strong class="highLight">고객 정보</strong>
+          를<br/>등록할게요
+        </h1>
+        <p>
+          서비스에 사용하실 정보를 입력하세요
+        </p>
+      </div>
+
+      <form class="p-3" onsubmit="return false;">
+        <small id="nickNameHelp" class="form-text text-muted text-left mb-1">닉네임은 10자 이하로만 가능합니다</small>
+        <div class="form-floating mb-4">
+          <input type="text" class="form-control" id="nickName" placeholder="닉네임" autocomplete="off">
+          <label for="nickName">닉네임</label>
+        </div>
+
+        <div class="mb-4">
+          <small id="identificationNoHelp" class="form-text text-muted text-left mb-1">주민등록번호 앞자리와 성별코드를 입력해주세요</small>
+          <div class="form-floating-flex">
+            <input type="number" class="form-control flex-input" id="identificationNo1" placeholder="9" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="identificationNo2" placeholder="0" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="identificationNo3" placeholder="0" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="identificationNo4" placeholder="1" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="identificationNo5" placeholder="3" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="identificationNo6" placeholder="1" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="-" style="border: none; background: transparent;" disabled>
+            <input type="number" class="form-control flex-input" id="identificationNo7" placeholder="1" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="x" disabled>
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="x" disabled>
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="x" disabled>
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="x" disabled>
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="x" disabled>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <small id="mobileTelHelp" class="form-text text-muted text-left mb-1">휴대폰 번호를 입력해주세요</small>
+          <div class="form-floating-flex">
+            <input type="number" class="form-control flex-input" id="mobileTel1" placeholder="0" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel2" placeholder="1" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel3" placeholder="0" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="-" style="border: none; background: transparent;" disabled>
+            <input type="number" class="form-control flex-input" id="mobileTel4" placeholder="1" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel5" placeholder="2" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel6" placeholder="3" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel7" placeholder="4" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="text" class="form-control flex-input" placeholder="1" autocomplete="off"  maxlength="1" value="-" style="border: none; background: transparent;" disabled>
+            <input type="number" class="form-control flex-input" id="mobileTel8" placeholder="5" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel9" placeholder="6" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel10" placeholder="7" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+            <input type="number" class="form-control flex-input" id="mobileTel11" placeholder="8" autocomplete="off"  min="0" max="9" maxlength="1" oninput="maxLengthCheck(this)">
+          </div>
+        </div>
+
+        <button type="button" id="btn-signup-step3" class="btn btn-primary btn-lg btn-block">다음</button>
+
+      </form>
+
+    </div>
+
+
+  </main>
+
+  <!-- Page level custom scripts -->
+  <script th:src="@{/js/signupStep3.js}" th:inline="javascript"></script>
+
+  <!-- Page Access Deny Alert -->
+  <div th:if="${deny} != null and ${deny} == true">
+    <script>
+      $(document).ready(function () {
+        bootbox.alert({
+          size: "small",
+          title: "알림",
+          message: `잘못된 접근이거나 만료된 페이지입니다`,
+          callback: function () {
+            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+            return window.location.replace(loc);
+          }
+        });
+      });
+    </script>
+  </div>
+
+</th:block>
+
+</html>

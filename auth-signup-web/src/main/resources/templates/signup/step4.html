@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <!-- Begin Page Content -->
+  <main class="form-signup">
+    <div class="mb-3">
+      <div class="form-signup pb-3 text-left">
+        <h1 class="h3 title" style="font-size:20px;">
+          <strong class="highLight">고객 정보</strong>
+          를<br/>등록할게요
+        </h1>
+        <p>
+          로그인에 사용하실 정보를 입력하세요
+        </p>
+      </div>
+
+      <form class="p-3" onsubmit="return false;">
+        <div class="mb-4">
+          <small id="genderHelp" class="form-text text-muted text-left mb-1">성별을 선택해주세요</small>
+          <div class="form-floating-radio">
+            <div class="form-check form-check-inline">
+              <input type="radio" class="flex-radio form-check-input" name="gender" id="genderMale" value="M">
+              <label class="form-check-label" for="genderMale">남성</label>
+            </div>
+            &nbsp;
+            <div class="form-check form-check-inline">
+              <input type="radio" class="flex-radio form-check-input" name="gender" id="genderFemale" value="F">
+              <label class="form-check-label" for="genderFemale">여성</label>
+            </div>
+          </div>
+        </div>
+
+
+
+        <button type="button" id="btn-signup-pre-step2" class="btn btn-primary btn-lg btn-block">다음</button>
+
+      </form>
+
+    </div>
+
+
+  </main>
+
+  <!-- Page level custom scripts -->
+  <script th:src="@{/js/signupStep3.js}" th:inline="javascript"></script>
+
+  <!-- Page Access Deny Alert -->
+  <div th:if="${deny} != null and ${deny} == true">
+    <script>
+      $(document).ready(function () {
+        bootbox.alert({
+          size: "small",
+          title: "알림",
+          message: `잘못된 접근이거나 만료된 페이지입니다`,
+          callback: function () {
+            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+            return window.location.replace(loc);
+          }
+        });
+      });
+    </script>
+  </div>
+
+</th:block>
+
+</html>

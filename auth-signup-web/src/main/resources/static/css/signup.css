@@ -17,6 +17,24 @@
     z-index: 2;
 }
 
+.form-signup .form-floating-flex{
+    display: inline-flex;
+    text-align: center;
+}
+
+.form-signup .form-floating-radio{
+    display: flex;
+    text-align: center;
+}
+
+
+
+
+.form-signup .form-floating-flex .flex-input{
+    text-align: center;
+    padding: 0%;
+}
+
 .form-signup input[type="email"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
@@ -42,4 +60,19 @@
     font-size: 24px;
     line-height: 28px;
     color: #067DFD;
+}
+
+/*
+    HTML Input Number Allow Hide
+*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
