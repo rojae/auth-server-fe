@@ -47,15 +47,12 @@ public class SignupStepUUIDService {
     }
 
     public SignupStepUUID get(HttpServletRequest request, HttpServletResponse response){
-        if(Arrays.stream(request.getCookies()).noneMatch(s -> s.getName().equals(SSUUID_NAME))){
+        Cookie cookie = WebUtils.getCookie(request, SSUUID_NAME);
+        if(cookie == null){
             return null;
         }
         else{
-            Cookie cookie = WebUtils.getCookie(request, SSUUID_NAME);
-            Optional<SignupStepUUID> selectedSSUUID = Optional.empty();
-            if (cookie != null) {
-                selectedSSUUID = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(cookie.getName(), cookie.getValue()));
-            }
+            Optional<SignupStepUUID> selectedSSUUID = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(cookie.getName(), cookie.getValue()));
             return selectedSSUUID.orElse(null);
         }
     }
