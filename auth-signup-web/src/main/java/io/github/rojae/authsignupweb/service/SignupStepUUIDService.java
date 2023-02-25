@@ -2,6 +2,7 @@ package io.github.rojae.authsignupweb.service;
 
 import io.github.rojae.authsignupweb.common.domain.SignupStepUUID;
 import io.github.rojae.authsignupweb.common.props.WebLocationProps;
+import io.github.rojae.authsignupweb.dto.SignupCustomInfoRequest;
 import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
 import io.github.rojae.authsignupweb.dto.SignupRedisData;
 import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
@@ -129,6 +130,21 @@ public class SignupStepUUIDService {
             && byId.get().getData().getEmail().equals(step2Request.getEmail())){
             SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupPasswordVerifyRequest(step2Request));
             signupStepUUIDRepository.save(ssUUID);      // update step2's result in redis server
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public boolean saveStep3(HttpServletRequest request, HttpServletResponse response, SignupCustomInfoRequest step3Request){
+        String val = CookieUtils.getCookie(request, SSUUID_NAME);
+        Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
+
+        if(byId.isPresent() && byId.get().getData() != null){
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupCustomRequest(step3Request));
+            signupStepUUIDRepository.save(ssUUID);      // update step3's result in redis server
             return true;
         }
         else{

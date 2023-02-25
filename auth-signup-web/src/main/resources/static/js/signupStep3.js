@@ -1,5 +1,16 @@
 $("#btn-signup-step3").click(function (){
 
+    if($("#nickName").val().length === 0){
+        return bootbox.alert({
+            size: "small",
+            title: "알림",
+            message: `닉네임이 입력되지 않았아요`,
+            callback: function () {
+                $("#nickName").focus();
+            }
+        });
+    }
+
     if($("#identificationNo1").val().length === 0 || $("#identificationNo2").val().length === 0
         || $("#identificationNo3").val().length === 0 || $("#identificationNo4").val().length === 0
         || $("#identificationNo5").val().length === 0 || $("#identificationNo6").val().length === 0
@@ -33,15 +44,60 @@ $("#btn-signup-step3").click(function (){
         });
     }
 
-    return bootbox.alert({
-        size: "middle",
-        title: "알림",
-        message: `아직 개발 중인 페이지이예요 😅<br/>로그인 페이지로 이동할게요`,
-        callback: function () {
-            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
-            window.location.replace(loc);
+    let nickName = $("#nickName").val();
+    let identificationNo = $("#identificationNo1").val() + $("#identificationNo2").val() + $("#identificationNo3").val() + $("#identificationNo4").val() + $("#identificationNo5").val() + $("#identificationNo6").val() + $("#identificationNo7").val();
+    let mobileTel = $("#mobileTel1").val() + $("#mobileTel2").val() + $("#mobileTel3").val() + $("#mobileTel4").val() + $("#mobileTel5").val() + $("#mobileTel6").val() + $("#mobileTel7").val() + $("#mobileTel8").val() + $("#mobileTel9").val() + $("#mobileTel10").val() + $("#mobileTel11").val();
+
+    let dataJson = JSON.stringify({ 'nickName': nickName, 'identificationNo': identificationNo, 'mobileTel': mobileTel});
+
+    $.ajax({
+        url : "/api/v1/signup/custom-info/personal",
+        method: "post",
+        beforeSend: function(request) {
+            request.setRequestHeader("signup_step_uuid", getCookie('signup_step_uuid'));
+        },
+        contentType : "application/json; charset=utf-8",
+        dataType : "json",
+        data : dataJson,
+        success : function(response){
+            console.log(response);
+
+            if(response.code === 'S0000'){
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `사용 가능한 닉네임과 고객정보입니다.`,
+                    callback: function () {
+                        window.location.replace("/signup/step4");
+                    }
+                });
+            }
+            else if(response.code === 'S0001') {
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `잘못된 경로이거나 만료된 세션입니다<br/>다시 진행해주세요`,
+                    callback: function () {
+                        window.location.replace("/home");
+                    }
+                });
+            }
+            else if(response.code === 'S0002') {
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `데이터가 조작이 되었어요<br/>다시 진행해주세요`,
+                    callback: function () {
+                        window.location.replace("/home");
+                    }
+                });
+            }
+            else{
+                exceptionRedirect();
+            }
         }
     });
+
 });
 
 

@@ -25,6 +25,7 @@ public class SignupRedisData {
     private String password;
     private String name;
     private String identificationNo;
+    private String mobileTel;
 
     // STEP 4 //
     private String mailAuthCode;
@@ -37,6 +38,12 @@ public class SignupRedisData {
     public SignupRedisData ofSignupPasswordVerifyRequest(SignupPasswordVerifyRequest request){
         this.setEmail(request.getEmail());
         this.setPassword(request.getPassword());
+        return this;
+    }
+
+    public SignupRedisData ofSignupCustomRequest(SignupCustomInfoRequest request){
+        this.setMobileTel(request.getMobileTel());
+        this.setIdentificationNo(request.getIdentificationNo());
         return this;
     }
 

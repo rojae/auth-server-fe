@@ -86,7 +86,22 @@ public class SignupController {
             model.addAttribute("ss_uuid_data", signupStepUUID.getData());
             return "signup/step3";
         }
+    }
 
+    @GetMapping("/signup/step4")
+    public String step4View(HttpServletRequest request, HttpServletResponse response, Model model){
+        SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
+
+        if(signupStepUUIDService.filterRequestRefer(request, signupStepUUID, webLocationProps.signupWebUrl + "/signup/step3")){
+            model.addAttribute("deny", true);
+            model.addAttribute("ss_uuid_data", new SignupRedisData());
+            return "signup/step4";
+        }
+        else{
+            log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
+            model.addAttribute("ss_uuid_data", signupStepUUID.getData());
+            return "signup/step4";
+        }
     }
 
 }

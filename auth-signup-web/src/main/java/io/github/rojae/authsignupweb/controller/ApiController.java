@@ -5,6 +5,7 @@ import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
 import io.github.rojae.authsignupweb.dto.ApiBase;
+import io.github.rojae.authsignupweb.dto.SignupCustomInfoRequest;
 import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
 import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
@@ -75,5 +76,19 @@ public class ApiController {
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_BADREQUET_WITHDATA));
         }
     }
+
+    @PostMapping("/api/v1/signup/custom-info/personal")
+    public ResponseEntity<ApiBase<Object>> customInfoPersonal(@RequestBody @Valid SignupCustomInfoRequest requestDto, HttpServletRequest request, HttpServletResponse response){
+        if(!signupStepUUIDService.checkSSUUID(request)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
+        }
+        else if(signupStepUUIDService.saveStep3(request, response, requestDto)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));
+        }
+        else {
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_BADREQUET_WITHDATA));
+        }
+    }
+
 
 }
