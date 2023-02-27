@@ -39,11 +39,26 @@ public class SignupController {
         return "home";
     }
 
+    @GetMapping("/signup/terms")
+    public String stepTerm(HttpServletRequest request, HttpServletResponse response, Model model){
+        SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
+
+        if(signupStepUUIDService.filterRequestRefer(request, signupStepUUID, webLocationProps.signupWebUrl + "/home")){
+            model.addAttribute("deny", true);
+            model.addAttribute("ss_uuid_data", new SignupRedisData());
+            return "signup/terms";
+        }
+
+        log.debug("SSUUID : {}", String.valueOf(signupStepUUID.getId()));
+
+        return "signup/terms";
+    }
+
     @GetMapping("/signup/step1")
     public String step1View(HttpServletRequest request, HttpServletResponse response, Model model){
         SignupStepUUID signupStepUUID = signupStepUUIDService.get(request, response);
 
-        if(signupStepUUIDService.filterRequestRefer(request, signupStepUUID, webLocationProps.signupWebUrl + "/home")){
+        if(signupStepUUIDService.filterRequestRefer(request, signupStepUUID, webLocationProps.signupWebUrl + "/signup/terms")){
             model.addAttribute("deny", true);
             model.addAttribute("ss_uuid_data", new SignupRedisData());
             return "signup/step1";

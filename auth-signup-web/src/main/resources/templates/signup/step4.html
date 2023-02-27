@@ -10,33 +10,32 @@
     <div class="mb-3">
       <div class="form-signup pb-3 text-left">
         <h1 class="h3 title" style="font-size:20px;">
-          <strong class="highLight">고객 정보</strong>
+          <strong class="highLight">마켓팅 동의여부</strong>
           를<br/>등록할게요
         </h1>
         <p>
-          로그인에 사용하실 정보를 입력하세요
+          해당 항목의 동의 여부를 체크해주세요.
         </p>
       </div>
 
       <form class="p-3" onsubmit="return false;">
         <div class="mb-4">
-          <small id="genderHelp" class="form-text text-muted text-left mb-1">성별을 선택해주세요</small>
-          <div class="form-floating-radio">
-            <div class="form-check form-check-inline">
-              <input type="radio" class="flex-radio form-check-input" name="gender" id="genderMale" value="M">
-              <label class="form-check-label" for="genderMale">남성</label>
+          <small id="genderHelp" class="form-text text-muted text-left mb-1">서비스와 관련된 신상품 소식, 이벤트 안내, 고객 혜택 등 다양한 정보를 제공합니다.</small>
+            <div class="form-floating-radio">
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="flex-radio form-check-input" name="agreeRecvMail" id="agreeRecvMail" value="Y">
+                <label class="form-check-label" for="agreeRecvMail"><small>Email 수신 동의</small></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="flex-radio form-check-input" name="agreeRecvSms" id="agreeRecvSms" value="Y">
+                <label class="form-check-label" for="agreeRecvSms"><small>SMS 수신 동의</small></label>
+              </div>
             </div>
-            &nbsp;
-            <div class="form-check form-check-inline">
-              <input type="radio" class="flex-radio form-check-input" name="gender" id="genderFemale" value="F">
-              <label class="form-check-label" for="genderFemale">여성</label>
-            </div>
-          </div>
         </div>
 
 
 
-        <button type="button" id="btn-signup-pre-step2" class="btn btn-primary btn-lg btn-block">다음</button>
+        <button type="button" id="btn-signup-step4" class="btn btn-primary btn-lg btn-block">가입하기</button>
 
       </form>
 
@@ -46,7 +45,7 @@
   </main>
 
   <!-- Page level custom scripts -->
-  <script th:src="@{/js/signupStep3.js}" th:inline="javascript"></script>
+  <script th:src="@{/js/signupStep4.js}" th:inline="javascript"></script>
 
   <!-- Page Access Deny Alert -->
   <div th:if="${deny} != null and ${deny} == true">

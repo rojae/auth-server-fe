@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <div class="text-left m-3">
+    <p>
+      <!-- Begin Page Content -->
+      <h5>개인정보의 수집 및 이용 동의서</h5><br/>
+      이용자가 제공한 모든 정보는 다음의 목적을 위해 활용하며, 하기 목적 이외의 용도로는 사용되지 않습니다.<br/><br/>
+      ① 개인정보 수집 항목 및 수집·이용 목적<br/>
+      가) 수집 항목 (필수항목)<br/>
+      - 성명(국문), 주민등록번호(생일/성별), 주소, 전화번호(휴대전화), 사진, 이메일, 나이 기재된 정보 또는 신청자가 제공한 정보<br/>
+      나) 수집 및 이용 목적<br/>
+      - 서비스 제공 및 자격확인<br/>
+      - 서비사 사용자 자원관리<br/><br/>
+      ② 개인정보 보유 및 이용기간<br/>
+      - 수집·이용 동의일로부터 탈퇴 이후 2년까지 보관<br/><br/>
+      ③ 동의거부관리<br/>
+      - 귀하께서는 본 안내에 따른 개인정보 수집, 이용에 대하여 동의를 거부하실 권리가 있습니다.<br/>
+        다만, 필수 약관의 경우 서비스에 제약이 있을 수 있습니다.<br/>
+    </p>
+  </div>
+
+  <script>
+    $(window).ready(function() {
+      $('#nav-title').text('필수 이용약관');
+    });
+  </script>
+
+</th:block>
+
+</html>

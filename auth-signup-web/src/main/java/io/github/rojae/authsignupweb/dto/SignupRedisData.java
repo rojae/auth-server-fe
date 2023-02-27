@@ -14,10 +14,9 @@ public class SignupRedisData {
     private String platformType;
 
     // STEP 2 //
-    // 약관동의
-    private String term1;
-    private String term2;
-    private String term3;
+    // 필수 약관동의
+    private String agreePersonalInfo;
+    private String agreeAdult;
 
     // STEP 3 //
     // 기본정보 입력 (이메일, 패스워드 / 성함, 주민등록번호 앞자리 + 뒷자리 1)
@@ -28,7 +27,9 @@ public class SignupRedisData {
     private String mobileTel;
 
     // STEP 4 //
-    private String mailAuthCode;
+    // 마켓팅 선택 약관동의
+    private String agreeRecvMail;
+    private String agreeRecvSms;
 
     public SignupRedisData ofSignupEmailVerifyRequest(SignupEmailVerifyRequest request){
         this.setEmail(request.getEmail());
@@ -44,6 +45,19 @@ public class SignupRedisData {
     public SignupRedisData ofSignupCustomRequest(SignupCustomInfoRequest request){
         this.setMobileTel(request.getMobileTel());
         this.setIdentificationNo(request.getIdentificationNo());
+        return this;
+    }
+
+    public SignupRedisData ofSignupOptionTermsRequest(SignupOptionTermsRequest request) {
+        this.agreeRecvMail = request.getAgreeRecvMail();
+        this.agreeRecvSms = request.getAgreeRecvSms();
+        return this;
+    }
+
+    // 필수 약관은 저장할때, 셋팅하자 (프론트 페이지에서 체크)
+    public SignupRedisData build(){
+        agreePersonalInfo = "Y";
+        agreeAdult = "Y";
         return this;
     }
 

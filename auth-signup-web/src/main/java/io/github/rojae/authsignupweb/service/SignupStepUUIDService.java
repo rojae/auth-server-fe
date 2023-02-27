@@ -2,10 +2,7 @@ package io.github.rojae.authsignupweb.service;
 
 import io.github.rojae.authsignupweb.common.domain.SignupStepUUID;
 import io.github.rojae.authsignupweb.common.props.WebLocationProps;
-import io.github.rojae.authsignupweb.dto.SignupCustomInfoRequest;
-import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
-import io.github.rojae.authsignupweb.dto.SignupRedisData;
-import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
+import io.github.rojae.authsignupweb.dto.*;
 import io.github.rojae.authsignupweb.repository.SignupStepUUIDRepository;
 import io.github.rojae.authsignupweb.utils.CookieUtils;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +26,7 @@ public class SignupStepUUIDService {
 
     private final SignupStepUUIDRepository signupStepUUIDRepository;
     private final WebLocationProps webLocationProps;
+
     private static final String SSUUID_NAME = "signup_step_uuid";
     private static final int SSUID_VALUE_LEN = 64;
     private static final int maxAge = 30 * 60;  // 30Min
@@ -128,7 +126,7 @@ public class SignupStepUUIDService {
         if(byId.isPresent()
             && byId.get().getData() != null
             && byId.get().getData().getEmail().equals(step2Request.getEmail())){
-            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupPasswordVerifyRequest(step2Request));
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), byId.get().getData().ofSignupPasswordVerifyRequest(step2Request));
             signupStepUUIDRepository.save(ssUUID);      // update step2's result in redis server
             return true;
         }
@@ -143,7 +141,7 @@ public class SignupStepUUIDService {
         Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
 
         if(byId.isPresent() && byId.get().getData() != null){
-            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), new SignupRedisData().ofSignupCustomRequest(step3Request));
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), byId.get().getData().ofSignupCustomRequest(step3Request));
             signupStepUUIDRepository.save(ssUUID);      // update step3's result in redis server
             return true;
         }
@@ -152,4 +150,19 @@ public class SignupStepUUIDService {
         }
     }
 
+    public boolean saveStep4(HttpServletRequest request, HttpServletResponse response, SignupOptionTermsRequest step4Request) {
+        String val = CookieUtils.getCookie(request, SSUUID_NAME);
+        Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
+
+        if(byId.isPresent() && byId.get().getData() != null){
+            SignupStepUUID ssUUID = new SignupStepUUID(SignupStepUUID.idFormat(SSUUID_NAME, val), byId.get().getData().ofSignupOptionTermsRequest(step4Request).build());
+            signupStepUUIDRepository.save(ssUUID);      // update step4's result in redis server
+
+            return true;
+            // todo :: create new account using by unionapi
+        }
+        else{
+            return false;
+        }
+    }
 }

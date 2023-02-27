@@ -4,10 +4,7 @@ import io.github.rojae.authsignupweb.common.api.SmtpApi;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
-import io.github.rojae.authsignupweb.dto.ApiBase;
-import io.github.rojae.authsignupweb.dto.SignupCustomInfoRequest;
-import io.github.rojae.authsignupweb.dto.SignupEmailVerifyRequest;
-import io.github.rojae.authsignupweb.dto.SignupPasswordVerifyRequest;
+import io.github.rojae.authsignupweb.dto.*;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
 import io.github.rojae.authsignupweb.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
@@ -90,5 +87,17 @@ public class ApiController {
         }
     }
 
+    @PostMapping("/api/v1/signup/option/terms")
+    public ResponseEntity<ApiBase<Object>> optionTerms(@RequestBody @Valid SignupOptionTermsRequest requestDto, HttpServletRequest request, HttpServletResponse response){
+        if(!signupStepUUIDService.checkSSUUID(request)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
+        }
+        else if(signupStepUUIDService.saveStep4(request, response, requestDto)){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));
+        }
+        else {
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_BADREQUET_WITHDATA));
+        }
+    }
 
 }

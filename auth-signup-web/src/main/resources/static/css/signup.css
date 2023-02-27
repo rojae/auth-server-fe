@@ -74,3 +74,9 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+.a-tag-left{
+    position: absolute;
+    top: 0;
+    right: 0;
+}

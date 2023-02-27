@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout}">
+
+<th:block layout:fragment="content">
+
+  <!-- Begin Page Content -->
+  <main class="form-signup">
+    <div class="mb-3">
+      <div class="form-signup pb-3 text-left">
+        <h1 class="h3 title" style="font-size:20px;">
+          <strong class="highLight">필수 이용약관</strong>
+          을<br/> 확인할게요
+        </h1>
+        <p>
+          해당 항목의 동의 여부를 체크해주세요.
+        </p>
+      </div>
+
+      <form class="p-3" onsubmit="return false;">
+        <div class="mb-4 form-floating-radio p-3" style="background-color: #f5f5f5">
+          <div class="form-check form-check-inline">
+            <input type="checkbox" class="flex-radio form-check-input" name="agreeAll" id="agreeAll" value="Y">
+            <label class="form-check-label" for="agreeAll">전체동의</label>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <small id="genderHelp" class="form-text text-blue text-left mb-2">필수 이용약관</small>
+          <div class="form-floating-radio">
+            <div class="form-check form-check-inline">
+              <input type="checkbox" class="flex-radio form-check-input agree-checkbox" name="agreePersonalInfo" id="agreePersonalInfo" value="Y">
+              <label class="form-check-label" for="agreePersonalInfo"><small>개인정보의 수집 및 이용 동의서</small></label>
+              <a class="a-tag-left" id="view-agree-personalInfo"><small>보기 <i class="fa-solid fa-chevron-right"></i></small></a>
+            </div>
+          </div>
+<!--          <div class="form-floating-radio">-->
+<!--            <div class="form-check form-check-inline">-->
+<!--                <input type="checkbox" class="flex-radio form-check-input" name="agreeCiDi" id="agreeCiDi" value="Y">-->
+<!--                <label class="form-check-label" for="agreeCiDi"><small>고유식별정보 처리 동의서</small></label>-->
+<!--              <a class="a-tag-left" id="view-agree-personalCiDi"><small>보기 <i class="fa-solid fa-chevron-right"></i></small></a>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="form-floating-radio">
+            <div class="form-check form-check-inline">
+              <input type="checkbox" class="flex-radio form-check-input agree-checkbox" name="agreeAdult" id="agreeAdult" value="Y">
+              <label class="form-check-label" for="agreeAdult"><small>만 19세 이상입니다.</small></label>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" id="btn-signup-terms" class="btn btn-primary btn-lg btn-block">다음</button>
+
+      </form>
+
+    </div>
+
+
+  </main>
+
+  <!-- Page level custom scripts -->
+  <script th:src="@{/js/signupTerms.js}" th:inline="javascript"></script>
+
+  <style>
+  /*<!-- 동의약관은 정렬을 사용하지 않고, rows로 정렬   -->*/
+    .form-signup .form-floating-radio {
+      display: block;
+      text-align: left;
+    }
+    .form-check-inline {
+      display: block;
+    }
+  </style>
+
+  <!-- Page Access Deny Alert -->
+  <div th:if="${deny} != null and ${deny} == true">
+    <script>
+      $(document).ready(function () {
+        bootbox.alert({
+          size: "small",
+          title: "알림",
+          message: `잘못된 접근이거나 만료된 페이지입니다`,
+          callback: function () {
+            let loc = document.querySelector("#web-signin").getAttribute("data-contextPath");
+            return window.location.replace(loc);
+          }
+        });
+      });
+    </script>
+  </div>
+
+</th:block>
+
+</html>
