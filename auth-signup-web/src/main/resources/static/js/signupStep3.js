@@ -63,14 +63,7 @@ $("#btn-signup-step3").click(function (){
             console.log(response);
 
             if(response.code === 'S0000'){
-                return bootbox.alert({
-                    size: "small",
-                    title: "알림",
-                    message: `사용 가능한 닉네임과 고객정보입니다.`,
-                    callback: function () {
-                        window.location.replace("/signup/step4");
-                    }
-                });
+                window.location.replace("/signup/step4");
             }
             else if(response.code === 'S0001') {
                 return bootbox.alert({
