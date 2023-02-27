@@ -8,7 +8,7 @@ public class TermViewController {
 
     @GetMapping("/signup/terms/view/personalInfo")
     public String personalInfo(){
-        return "/terms/personalInfo";
+        return "terms/personalInfo";
     }
 
 }
