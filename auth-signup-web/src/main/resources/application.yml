@@ -54,3 +54,9 @@ logging:
       github:
         rojae:
           authsignupweb: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
