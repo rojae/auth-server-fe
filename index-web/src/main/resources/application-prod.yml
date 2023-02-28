@@ -6,3 +6,9 @@ web:
     signin: ${WEB_LOCATION_SIGNIN}
 server:
   port: '8002'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

@@ -52,3 +52,9 @@ logging:
           authsigninweb: debug
 server:
   port: '8000'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
