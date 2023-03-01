@@ -30,7 +30,14 @@ auth:
     be:
       unionapi:
         base: http://localhost:10000
-        signup: /api/v1/auth/signup/newuser
+        signup:
+          url: /api/v1/auth/signup/newuser
+        check:
+          duplicate:
+            email:
+              url: /api/v1/check/duplicate/email
+            nickname:
+              url: /api/v1/check/duplicate/nickname
 
 smtp:
   mail:

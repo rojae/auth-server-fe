@@ -26,6 +26,13 @@ $("#btn-signup-pre-step1").click(function (){
                     }
                 });
             }
+            else if(response.code === 'A3001'){
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: `이미 가입된 이메일 주소입니다<br/>다른 이메일을 사용해주세요`,
+                });
+            }
             else if(response.code === 'M0001'){
                 return bootbox.alert({
                     size: "small",

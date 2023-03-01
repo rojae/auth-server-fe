@@ -1,8 +1,11 @@
 package io.github.rojae.authsignupweb.controller;
 
 import io.github.rojae.authsignupweb.common.api.SmtpApi;
+import io.github.rojae.authsignupweb.common.api.UnionApi;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
+import io.github.rojae.authsignupweb.common.api.unionApiDto.CheckDuplicateEmail;
+import io.github.rojae.authsignupweb.common.api.unionApiDto.CheckDuplicateNickname;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
 import io.github.rojae.authsignupweb.dto.*;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
@@ -24,6 +27,7 @@ import javax.validation.Valid;
 @Slf4j
 public class ApiController {
 
+    private final UnionApi unionApi;
     private final SmtpApi smtpApi;
     private final SignupStepUUIDService signupStepUUIDService;
 
@@ -38,8 +42,13 @@ public class ApiController {
 
     @PostMapping("/api/v1/mail/send/signupForAuth")
     public ResponseEntity<ApiBase<Object>> sendAuthMail(@RequestBody MailRequestDto requestDto){
-        smtpApi.sendSignupAuthMail(requestDto);
-        return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_OK));
+        if(ApiCode.ofCode(unionApi.checkDuplicateEmail(new CheckDuplicateEmail(requestDto.getEmail())).getCode()) != ApiCode.OK){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_DUPLICATE));
+        }
+        else{
+            smtpApi.sendSignupAuthMail(requestDto);
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_OK));
+        }
     }
 
     @PostMapping("/api/v1/mail/verify/signupForAuth")
@@ -78,6 +87,9 @@ public class ApiController {
     public ResponseEntity<ApiBase<Object>> customInfoPersonal(@RequestBody @Valid SignupCustomInfoRequest requestDto, HttpServletRequest request, HttpServletResponse response){
         if(!signupStepUUIDService.checkSSUUID(request)){
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
+        }
+        else if(ApiCode.ofCode(unionApi.checkDuplicateNickname(new CheckDuplicateNickname(requestDto.getNickname())).getCode()) != ApiCode.OK){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_DUPLICATE));
         }
         else if(signupStepUUIDService.saveStep3(request, response, requestDto)){
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));

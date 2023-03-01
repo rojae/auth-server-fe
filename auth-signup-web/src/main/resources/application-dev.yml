@@ -30,6 +30,10 @@ auth:
       unionapi:
         base: ${AUTH_SERVER_BE_UNIONAPI}
         signup: /api/v1/auth/signup/newuser
+        check:
+          duplicate:
+            email: /api/v1/check/duplicate/email
+            nickname: /api/v1/check/duplicate/nickname
 
 smtp:
   mail:
