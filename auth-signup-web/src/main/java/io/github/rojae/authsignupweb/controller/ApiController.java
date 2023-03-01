@@ -6,9 +6,14 @@ import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailRequestDto;
 import io.github.rojae.authsignupweb.common.api.smtpApiDto.MailVerifyRequestDto;
 import io.github.rojae.authsignupweb.common.api.unionApiDto.CheckDuplicateEmail;
 import io.github.rojae.authsignupweb.common.api.unionApiDto.CheckDuplicateNickname;
+import io.github.rojae.authsignupweb.common.api.unionApiDto.SignupRequest;
 import io.github.rojae.authsignupweb.common.enums.ApiCode;
+import io.github.rojae.authsignupweb.common.enums.MailType;
 import io.github.rojae.authsignupweb.dto.*;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
+import io.github.rojae.authsignupweb.utils.BrithDateUtils;
+import io.github.rojae.authsignupweb.utils.GenderUtils;
+import io.github.rojae.authsignupweb.utils.MobileTelUtils;
 import io.github.rojae.authsignupweb.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +46,13 @@ public class ApiController {
     // 프로필 이미지 등록은, 로그인 시 진행
 
     @PostMapping("/api/v1/mail/send/signupForAuth")
-    public ResponseEntity<ApiBase<Object>> sendAuthMail(@RequestBody MailRequestDto requestDto){
+    public ResponseEntity<ApiBase<Object>> sendAuthMail(@RequestBody SignupMailSendRequest requestDto){
         if(ApiCode.ofCode(unionApi.checkDuplicateEmail(new CheckDuplicateEmail(requestDto.getEmail())).getCode()) != ApiCode.OK){
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_DUPLICATE));
         }
         else{
-            smtpApi.sendSignupAuthMail(requestDto);
+            // 인증메일 전송
+            smtpApi.sendSignupAuthMail(new MailRequestDto(requestDto.getEmail(), MailType.SIGNUP.name()));
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SMTP_OK));
         }
     }
@@ -105,11 +111,35 @@ public class ApiController {
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_INVALID_SSUUID));
         }
         else if(signupStepUUIDService.saveStep4(request, response, requestDto)){
-            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));
+            SignupRedisData data = signupStepUUIDService.get(request, response).getData();
+
+            // 가입 진행 :: call union api
+            // Welcome 메일 전송은 unionAPI에서 담당
+            ApiBase<Object> signupResponse = unionApi.signup(new SignupRequest(
+                    data.getName(), data.getEmail(), data.getPassword(),
+                    data.getNickname(), data.getPlatformType(), "",
+                    BrithDateUtils.getBirthDate(data.getIdentificationNo()),
+                    GenderUtils.getGender(data.getIdentificationNo()),
+                    MobileTelUtils.mobileTel1(data.getMobileTel()),
+                    MobileTelUtils.mobileTel2(data.getMobileTel()),
+                    MobileTelUtils.mobileTel3(data.getMobileTel()),
+                    data.getAgreePersonalInfo(),
+                    data.getAgreeAdult(),
+                    data.getAgreeRecvMail(),
+                    data.getAgreeRecvSms()
+            ));
+
+            if(ApiCode.ofCode(signupResponse.getCode()) == ApiCode.OK){
+                return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_OK));
+            }
+            else{
+                return ResponseEntity.ok(new ApiBase<>(ApiCode.COREAPI_ERROR));
+            }
         }
         else {
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_BADREQUET_WITHDATA));
         }
     }
+
 
 }

@@ -42,8 +42,6 @@ smtp:
       send:
         signupAuthMail:
           url: /api/v1/mail/send/signupForAuth
-        welcomeMail:
-          url: /api/v1/mail/send/signupDone
       verify:
         signupAuthMail:
           url: /api/v1/mail/verify/signupForAuth

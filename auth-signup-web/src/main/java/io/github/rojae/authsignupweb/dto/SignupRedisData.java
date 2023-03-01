@@ -1,5 +1,6 @@
 package io.github.rojae.authsignupweb.dto;
 
+import io.github.rojae.authsignupweb.common.enums.PlatformType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,20 +10,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignupRedisData {
 
-    // STEP 1 //
-    // 회원타입구분 서비스/카카오
-    private String platformType;
-
-    // STEP 2 //
-    // 필수 약관동의
+    // STEP 0 //
     private String agreePersonalInfo;
     private String agreeAdult;
 
+    // STEP 1 //
+    private String email;
+    private String platformType;
+
+    // STEP 2 //
+    private String password;
+
+
     // STEP 3 //
     // 기본정보 입력 (이메일, 패스워드 / 성함, 주민등록번호 앞자리 + 뒷자리 1)
-    private String email;
-    private String password;
     private String name;
+    private String nickname;
     private String identificationNo;
     private String mobileTel;
 
@@ -33,18 +36,20 @@ public class SignupRedisData {
 
     public SignupRedisData ofSignupEmailVerifyRequest(SignupEmailVerifyRequest request){
         this.setEmail(request.getEmail());
+        this.setPlatformType(PlatformType.NONSOCIAL.name());
         return this;
     }
 
     public SignupRedisData ofSignupPasswordVerifyRequest(SignupPasswordVerifyRequest request){
-        this.setEmail(request.getEmail());
         this.setPassword(request.getPassword());
         return this;
     }
 
     public SignupRedisData ofSignupCustomRequest(SignupCustomInfoRequest request){
-        this.setMobileTel(request.getMobileTel());
+        this.setName(request.getName());
+        this.setNickname(request.getNickname());
         this.setIdentificationNo(request.getIdentificationNo());
+        this.setMobileTel(request.getMobileTel());
         return this;
     }
 

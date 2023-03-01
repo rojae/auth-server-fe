@@ -11,7 +11,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class SignupCustomInfoRequest {
     @NotBlank
-    private String nickname;                // 성함, 닉네임
+    private String name;                    // 성함
+
+    @NotBlank
+    private String nickname;                // 닉네임
 
     @NotBlank
     private String identificationNo;        // 주민등록번호 앞자리 + 마지막 자리

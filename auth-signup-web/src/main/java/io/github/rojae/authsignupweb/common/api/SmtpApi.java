@@ -17,7 +17,5 @@ public interface SmtpApi {
     @PostMapping("${smtp.mail.server.verify.signupAuthMail.url}")
     ApiBase<Object> verifySignupAuthMail(@RequestBody MailVerifyRequestDto request);
 
-//    @GetMapping("${smtp.mail.server.send.welcomeMail.url}")
-//    ApiBase<Object> clientInfo(@RequestParam(value = "platformType") String platformType);
 
 }

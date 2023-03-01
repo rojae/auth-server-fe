@@ -1,5 +1,16 @@
 $("#btn-signup-step3").click(function (){
 
+    if($("#name").val().length === 0){
+        return bootbox.alert({
+            size: "small",
+            title: "알림",
+            message: `성함이 입력되지 않았아요`,
+            callback: function () {
+                $("#name").focus();
+            }
+        });
+    }
+
     if($("#nickname").val().length === 0){
         return bootbox.alert({
             size: "small",
@@ -44,11 +55,12 @@ $("#btn-signup-step3").click(function (){
         });
     }
 
+    let name = $("#name").val();
     let nickname = $("#nickname").val();
     let identificationNo = $("#identificationNo1").val() + $("#identificationNo2").val() + $("#identificationNo3").val() + $("#identificationNo4").val() + $("#identificationNo5").val() + $("#identificationNo6").val() + $("#identificationNo7").val();
     let mobileTel = $("#mobileTel1").val() + $("#mobileTel2").val() + $("#mobileTel3").val() + $("#mobileTel4").val() + $("#mobileTel5").val() + $("#mobileTel6").val() + $("#mobileTel7").val() + $("#mobileTel8").val() + $("#mobileTel9").val() + $("#mobileTel10").val() + $("#mobileTel11").val();
 
-    let dataJson = JSON.stringify({ 'nickname': nickname, 'identificationNo': identificationNo, 'mobileTel': mobileTel});
+    let dataJson = JSON.stringify({ 'name': name, 'nickname': nickname, 'identificationNo': identificationNo, 'mobileTel': mobileTel});
 
     $.ajax({
         url : "/api/v1/signup/custom-info/personal",

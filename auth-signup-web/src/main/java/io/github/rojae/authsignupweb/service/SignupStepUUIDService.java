@@ -26,7 +26,6 @@ public class SignupStepUUIDService {
 
     private final SignupStepUUIDRepository signupStepUUIDRepository;
     private final WebLocationProps webLocationProps;
-
     private static final String SSUUID_NAME = "signup_step_uuid";
     private static final int SSUID_VALUE_LEN = 64;
     private static final int maxAge = 30 * 60;  // 30Min
@@ -150,6 +149,7 @@ public class SignupStepUUIDService {
         }
     }
 
+    @Transactional(readOnly = false)
     public boolean saveStep4(HttpServletRequest request, HttpServletResponse response, SignupOptionTermsRequest step4Request) {
         String val = CookieUtils.getCookie(request, SSUUID_NAME);
         Optional<SignupStepUUID> byId = signupStepUUIDRepository.findById(SignupStepUUID.idFormat(SSUUID_NAME, val));
@@ -159,7 +159,6 @@ public class SignupStepUUIDService {
             signupStepUUIDRepository.save(ssUUID);      // update step4's result in redis server
 
             return true;
-            // todo :: create new account using by unionapi
         }
         else{
             return false;

@@ -1,8 +1,7 @@
 $("#btn-signup-pre-step1").click(function (){
 
     let email = $("#email").val();
-    let mailType = "SIGNUP";
-    let dataJson = JSON.stringify({'email': email, 'mailType': mailType});
+    let dataJson = JSON.stringify({'email': email});
 
     $.ajax({
         url : "/api/v1/mail/send/signupForAuth",
