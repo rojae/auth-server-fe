@@ -14,6 +14,7 @@ public enum ApiCode {
     SIGNUP_API_INVALID_SSUUID("S0001", "잘못된 경로 혹은 만료된 세션입니다"),
     SIGNUP_API_BADREQUET_WITHDATA("S0002", "조작된 데이터의 요청입니다"),
     SIGNUP_API_NOTALLOW_PASSWORD("S0003", "사용 불가능한 패스워드입니다"),
+    SIGNUP_API_NOTALLOW_DATAFORMAT("S0004", "잘못된 데이터 형식의 요청입니다"),
 
 
 

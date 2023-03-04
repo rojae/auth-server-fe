@@ -11,10 +11,7 @@ import io.github.rojae.authsignupweb.common.enums.ApiCode;
 import io.github.rojae.authsignupweb.common.enums.MailType;
 import io.github.rojae.authsignupweb.dto.*;
 import io.github.rojae.authsignupweb.service.SignupStepUUIDService;
-import io.github.rojae.authsignupweb.utils.BrithDateUtils;
-import io.github.rojae.authsignupweb.utils.GenderUtils;
-import io.github.rojae.authsignupweb.utils.MobileTelUtils;
-import io.github.rojae.authsignupweb.utils.PasswordUtils;
+import io.github.rojae.authsignupweb.utils.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +44,10 @@ public class ApiController {
 
     @PostMapping("/api/v1/mail/send/signupForAuth")
     public ResponseEntity<ApiBase<Object>> sendAuthMail(@RequestBody SignupMailSendRequest requestDto){
-        if(ApiCode.ofCode(unionApi.checkDuplicateEmail(new CheckDuplicateEmail(requestDto.getEmail())).getCode()) != ApiCode.OK){
+        if(!InputValidator.isValidEmail(requestDto.getEmail())){
+            return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_API_NOTALLOW_DATAFORMAT, "잘못된 이메일 형식입니다"));
+        }
+        else if(ApiCode.ofCode(unionApi.checkDuplicateEmail(new CheckDuplicateEmail(requestDto.getEmail())).getCode()) != ApiCode.OK){
             return ResponseEntity.ok(new ApiBase<>(ApiCode.SIGNUP_DUPLICATE));
         }
         else{
