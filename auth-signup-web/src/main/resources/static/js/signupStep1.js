@@ -39,6 +39,13 @@ $("#btn-signup-pre-step1").click(function (){
                     message: `이메일 발송에 실패했어요<br/>다시 한번 시도해주세요`,
                 });
             }
+            else if(response.code === 'S0004'){
+                return bootbox.alert({
+                    size: "small",
+                    title: "알림",
+                    message: response.reason,
+                });
+            }
             else{
                 exceptionRedirect();
             }
